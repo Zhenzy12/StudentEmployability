@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Student Employability Predictor</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootswatch.css') }}">
+    <script src="{{ url_for('static', filename='bootstrap/js/bootstrap.min.js') }}"></script>
+</head>
+<body>
+    <div class="container mt-2">
+        <!-- Title of the web page -->
+        <div class="text-center bg-primary mb-3 p-2 rounded rounded-3 fs-2 text-white">Student Employability Predictor</div>
+        <div class="row">
+            <div class="col-8">
+                <div class="card bg-white text-black">
+                    <div class="card-header text-center fs-3 bg-secondary text-white">Student Information Form</div>
+                    <div class="card-body">
+                        <!-- HTML form method: POST, action: /predict -->
+                        <form method="POST">
+                            <div class="border border-3 border-info rounded p-2">
+                                <div class="fw-bold">Instructions:</div>
+                                <div>Move the range indicator to assess your skills. The range has the lowest value of 1 and the highest number of 5.</div>
+                            </div>
+                            <div class="row mt-3 fw-bold">
+                                <div class="col-6 mt-3">
+                                    <label for="gen_app">General Appearance:</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="1" id="gen_app" name="gen_app">
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="self_conf">Self-Confidence:</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="1" id="self_conf" name="self_conf">
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="manner_spk">Manner of Speaking:</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="1" id="manner_spk" name="manner_spk">
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="ability_pres_ideas">Ability to Present Ideas:</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="1" id="ability_pres_ideas" name="ability_pres_ideas">
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="phys_cond">Physical Condition:</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="1" id="phys_cond" name="phys_cond">
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="comm_skill">Communication Skills:</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="1" id="comm_skill" name="comm_skill">
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="ment_alert">Mental Alertness:</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="1" id="ment_alert" name="ment_alert">
+                                </div>
+                                <div class="col-6 mt-3">
+                                    <label for="stud_perf_rate">Student Performance Rating:</label>
+                                    <input type="range" class="form-range" min="1" max="5" step="1" id="stud_perf_rate" name="stud_perf_rate">
+                                </div>
+                            </div>
+                            <div class="d-grid gap-2 col-6 mx-auto mt-3">
+                                <input type="submit" class="btn btn-success" value="Submit">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card bg-white text-black">
+                    <div class="card-header text-center fs-3 bg-secondary text-white">Assessment</div>
+                    <div class="card-body mt-0 pt-1 pb-1">
+                        <table class="table text-black text-center mt-0 mb-0">
+                            <tbody>
+                                <tr>
+                                    <th scope="row" class="text-start">General Appearance:</th>
+                                    <td>{{ form_data.get('general_appearance', 'na') }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-start">Manner Of Speaking:</th>
+                                    <td>{{ form_data.get('manner_of_speaking', 'na') }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-start">Physical Condition:</th>
+                                    <td>{{ form_data.get('physical_condition', 'na') }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-start">Mental Alertness:</th>
+                                    <td>{{ form_data.get('mental_alertness', 'na') }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-start">Self Confidence:</th>
+                                    <td>{{ form_data.get('self_confidence', 'na') }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-start">Ability to Present Ideas:</th>
+                                    <td>{{ form_data.get('ability_to_present_ideas', 'na') }}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="text-start">Communication Skill:</th>
+                                    <td>{{ form_data.get('communication_skill', 'na') }}</td>
+                                </tr>
+                                <tr class="border border-white">
+                                    <th scope="row" class="text-start">Student Performance Rating:</th>
+                                    <td>{{ form_data.get('student_performance_rating', 'na') }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer bg-secondary text-white">
+                        <div class="text-start fs-5 text-center">Prediction Result: </div>
+
+                        {% if prediction == "LessEmployable" %}
+                            <div class="text-warning fw-bold fs-3 text-center">Less Employable </div>
+                        {% elif prediction == "Employable"%}
+                            <div class="text-success fw-bold fs-3 text-center">{{ prediction }}</div>
+                        {% else %}
+                            <div class="text-warning fw-bold fs-3 text-center">{{ prediction }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
