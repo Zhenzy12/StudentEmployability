@@ -35,4 +35,5 @@ def home():
 # Run the app only when this script is executed directly (not when imported)
 if __name__ == "__main__":
     # Run the app in debug mode, which allows us to see error messages in the browser
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
